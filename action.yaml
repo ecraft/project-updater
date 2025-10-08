@@ -16,7 +16,7 @@ runs:
     - id: issue-id
       name: Add the issue to the project
       shell: bash
-      run: gh project item-add --owner ${{ inputs.project-owner }} --url ${{ github.event.issue.html_url }} ${{ inputs.project-number }}
+      run: gh project item-add --format json --owner ${{ inputs.project-owner }} --url ${{ github.event.issue.html_url }} --jq '"issue=" + (.id)' ${{ inputs.project-number }} >> $GITHUB_OUTPUT
       env:
         GH_TOKEN: ${{ inputs.github-token }}
     - id: field-id
