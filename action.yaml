@@ -26,3 +26,7 @@ inputs:
   field-name:
     description: "The field to update"
     required: true
+  field-value:
+    description: "The value to write to the field"
+    required: true
+    
