@@ -9,7 +9,7 @@ runs:
   steps:
     - name: Find custom fields in project
       shell: bash
-      run: gh project field-list ${{ inputs.project-number }}
+      run: gh project field-list --owner=@me ${{ inputs.project-number }}
       env:
         GH_TOKEN: ${{ inputs.github-token }}
       
