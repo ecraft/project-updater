@@ -7,12 +7,25 @@ branding:
 runs:
   using: 'composite'
   steps:
-    - name: Find custom fields in project
+    - id: custom-field-key-id
+      name: Find custom field key id
       shell: bash
-      run: gh project field-list --format json --owner ${{ inputs.project-owner }} --jq '.fields.[] | select(.name == "${{ inputs.field-name }}")' ${{ inputs.project-number }}
+      run: gh project field-list --format json --owner ${{ inputs.project-owner }} --jq '.fields.[] | select(.name == "${{ inputs.field-name }}") | .id' ${{ inputs.project-number }}
       env:
         GH_TOKEN: ${{ inputs.github-token }}
-      
+    - id: custom-field-value-id
+      name: Find custom fields value id
+      shell: bash
+      run: gh project field-list --format json --owner ${{ inputs.project-owner }} --jq '.fields.[] | select(.name == "${{ inputs.field-name }}") | .options.[] |  select(.name == "${{ inputs.field-value }}") | .id' ${{ inputs.project-number }}
+      env:
+        GH_TOKEN: ${{ inputs.github-token }}
+    - id: update-issue
+      name: Update custom field for issue
+      shell: bash
+      run: gh project --owner ${{ inputs.project-owner }} --id ${{ inputs.issue }} --field-id ${{ inputs.custom-field-key-id }} --single-select-option-id ${{ outputs.custom-field-value-id }}
+      env:
+        GH_TOKEN: ${{ inputs.github-token }}
+    
 inputs:
   github-token:
     description: 'The Github token to use.'
@@ -28,5 +41,8 @@ inputs:
     required: true
   field-value:
     description: "The value to write to the field"
+    required: true
+  issue:
+    description: "The issue to update"
     required: true
     
