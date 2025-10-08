@@ -7,6 +7,12 @@ branding:
 runs:
   using: 'composite'
   steps:
+    - id: project-id
+      name: Find the project id
+      shell: bash
+      run: gh project list --format json --owner ${{ inputs.project-owner }} ${{ inputs.project-number }}  >> $GITHUB_OUTPUT
+      env:
+        GH_TOKEN: ${{ inputs.github-token }}
     - id: field-id
       name: Find custom field id
       shell: bash
