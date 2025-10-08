@@ -9,7 +9,7 @@ runs:
   steps:
     - name: Find custom fields in project
       shell: bash
-      run: gh project field-list --owner=${{ inputs.project-owner }} ${{ inputs.project-number }}
+      run: gh project field-list --format json --owner ${{ inputs.project-owner }} ${{ inputs.project-number }}
       env:
         GH_TOKEN: ${{ inputs.github-token }}
       
@@ -23,4 +23,6 @@ inputs:
   project-number:
     description: 'The project number.'
     required: true
-  
+  field-name:
+    description: "The field to update"
+    required: true
