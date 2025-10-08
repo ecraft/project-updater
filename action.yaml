@@ -14,10 +14,10 @@ runs:
         GITHUB_TOKEN: ${{ inputs.github_token }}
       
 inputs:
-  github_token:
+  github-token:
     description: 'The Github token to use.'
     required: true
-  project_number:
+  project-number:
     description: 'The project number.'
     required: true
   
