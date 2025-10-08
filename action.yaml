@@ -14,9 +14,9 @@ runs:
       env:
         GH_TOKEN: ${{ inputs.github-token }}
     - id: issue-id
-      name: Find the issue id
+      name: Add the issue to the project
       shell: bash
-      run: gh project item-list --format json --owner ${{ inputs.project-owner }} -L 50000 --jq '"issue=" + (.items.[] | select(.content.url == "${{ github.event.issue.html_url }}").id)' ${{ inputs.project-number }}  >> $GITHUB_OUTPUT
+      run: gh project item-add --owner ${{ inputs.project-owner }} --url ${{ github.event.issue.html_url }} ${{ inputs.project-number }}
       env:
         GH_TOKEN: ${{ inputs.github-token }}
     - id: field-id
