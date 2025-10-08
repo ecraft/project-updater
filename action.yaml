@@ -22,7 +22,7 @@ runs:
     - id: update-issue
       name: Update custom field for issue
       shell: bash
-      run: gh project item-edit --owner ${{ inputs.project-owner }} --id ${{ inputs.issue }} --field-id ${{ steps.field-id.field }} --single-select-option-id ${{ steps.option-id.option }}
+      run: gh project item-edit --owner --id ${{ inputs.issue }} --field-id ${{ steps.field-id.outputs.field }} --single-select-option-id ${{ steps.option-id.outputs.option }}
       env:
         GH_TOKEN: ${{ inputs.github-token }}
     
