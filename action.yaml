@@ -13,8 +13,8 @@ runs:
       run: gh project list --format json --owner ${{ inputs.project-owner }} --jq '"project=" + (.projects.[] | select(.number == ${{ inputs.project-number }}).id)' ${{ inputs.project-number }}  >> $GITHUB_OUTPUT
       env:
         GH_TOKEN: ${{ inputs.github-token }}
-    - id: item-id
-      name: Find the item id
+    - id: issue-id
+      name: Find the issue id
       shell: bash
       run: gh project item-list --format json --owner ${{ inputs.project-owner }} --jq '"issue=" + (.items.[] | select(.content.url == "${{ github.event.issue.url }}").id)' ${{ inputs.project-number }}  >> $GITHUB_OUTPUT
       env:
@@ -34,7 +34,7 @@ runs:
     - id: update-issue
       name: Update custom field for issue
       shell: bash
-      run: gh project item-edit --project-id ${{ steps.project-id.outputs.project }} --id ${{ inputs.issue }} --field-id ${{ steps.field-id.outputs.field }} --single-select-option-id ${{ steps.option-id.outputs.option }}
+      run: gh project item-edit --project-id ${{ steps.project-id.outputs.project }} --id ${{ steps.issue-id.outputs.issue }} --field-id ${{ steps.field-id.outputs.field }} --single-select-option-id ${{ steps.option-id.outputs.option }}
       env:
         GH_TOKEN: ${{ inputs.github-token }}
     
