@@ -9,9 +9,9 @@ runs:
   steps:
     - name: Find custom fields in project
       shell: bash
-      run: gh project field-list ${{ inputs.project_number }}
+      run: gh project field-list ${{ inputs.project-number }}
       env:
-        GH_TOKEN: ${{ inputs.github_token }}
+        GH_TOKEN: ${{ inputs.github-token }}
       
 inputs:
   github-token:
