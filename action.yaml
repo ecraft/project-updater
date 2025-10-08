@@ -11,7 +11,7 @@ runs:
       shell: bash
       run: gh project field-list ${{ inputs.project_number }}
       env:
-        GITHUB_TOKEN: ${{ inputs.github_token }}
+        GH_TOKEN: ${{ inputs.github_token }}
       
 inputs:
   github-token:
