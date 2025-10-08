@@ -16,7 +16,7 @@ runs:
     - id: issue-id
       name: Find the issue id
       shell: bash
-      run: gh project item-list --format json --owner ${{ inputs.project-owner }} --jq '"issue=" + (.items.[] | select(.content.url == "${{ github.event.issue.url }}").id)' ${{ inputs.project-number }}  >> $GITHUB_OUTPUT
+      run: gh project item-list --format json --owner ${{ inputs.project-owner }} -L 50000 --jq '"issue=" + (.items.[] | select(.content.url == "${{ github.event.issue.url }}").id)' ${{ inputs.project-number }}  >> $GITHUB_OUTPUT
       env:
         GH_TOKEN: ${{ inputs.github-token }}
     - id: field-id
