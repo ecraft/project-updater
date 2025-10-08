@@ -1,0 +1,23 @@
+name: 'Update Github Project fields'
+description: 'This action updates custom fields in a GitHub Project.'
+author: "Fellowmind Fabric Solutions"
+branding:
+  icon: 'edit'
+  color: 'black'
+runs:
+  using: 'composite'
+  steps:
+    - name: Find custom fields in project
+      shell: bash
+      run: gh project field-list ${{ inputs.project_number }}
+      env:
+        GITHUB_TOKEN: ${{ inputs.github_token }}
+      
+inputs:
+  github_token:
+    description: 'The Github token to use.'
+    required: true
+  project_number:
+    description: 'The project number.'
+    required: true
+  
