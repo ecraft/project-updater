@@ -7,22 +7,22 @@ branding:
 runs:
   using: 'composite'
   steps:
-    - id: custom-field-key-id
-      name: Find custom field key id
+    - id: field-id
+      name: Find custom field id
       shell: bash
-      run: gh project field-list --format json --owner ${{ inputs.project-owner }} --jq '.fields.[] | select(.name == "${{ inputs.field-name }}") | .id' ${{ inputs.project-number }}
+      run: gh project field-list --format json --owner ${{ inputs.project-owner }} --jq '"field=" + (.fields.[] | select(.name == "${{ inputs.field-name }}") | .id)' ${{ inputs.project-number }}  >> $GITHUB_OUTPUT
       env:
         GH_TOKEN: ${{ inputs.github-token }}
-    - id: custom-field-value-id
+    - id: option-id
       name: Find custom fields value id
       shell: bash
-      run: gh project field-list --format json --owner ${{ inputs.project-owner }} --jq '.fields.[] | select(.name == "${{ inputs.field-name }}") | .options.[] |  select(.name == "${{ inputs.field-value }}") | .id' ${{ inputs.project-number }}
+      run: gh project field-list --format json --owner ${{ inputs.project-owner }} --jq '"option=" + (.fields.[] | select(.name == "${{ inputs.field-name }}") | .options.[] |  select(.name == "${{ inputs.field-value }}") | .id)' ${{ inputs.project-number }} >> $GITHUB_OUTPUT
       env:
         GH_TOKEN: ${{ inputs.github-token }}
     - id: update-issue
       name: Update custom field for issue
       shell: bash
-      run: gh project --owner ${{ inputs.project-owner }} --id ${{ inputs.issue }} --field-id ${{ inputs.custom-field-key-id }} --single-select-option-id ${{ outputs.custom-field-value-id }}
+      run: gh project --owner ${{ inputs.project-owner }} --id ${{ inputs.issue }} --field-id ${{ steps.field-id.field }} --single-select-option-id ${{ steps.option-id.option }}
       env:
         GH_TOKEN: ${{ inputs.github-token }}
     
@@ -45,4 +45,3 @@ inputs:
   issue:
     description: "The issue to update"
     required: true
-    
