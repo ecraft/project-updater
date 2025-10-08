@@ -9,13 +9,16 @@ runs:
   steps:
     - name: Find custom fields in project
       shell: bash
-      run: gh project field-list --owner=@me ${{ inputs.project-number }}
+      run: gh project field-list --owner=${{ inputs.project-owner }} ${{ inputs.project-number }}
       env:
         GH_TOKEN: ${{ inputs.github-token }}
       
 inputs:
   github-token:
     description: 'The Github token to use.'
+    required: true
+  project-owner:
+    description: 'The project owner.'
     required: true
   project-number:
     description: 'The project number.'
